@@ -62,36 +62,35 @@ for name in results:
         spotify_albums = {}
 
         # function to get song from album
-        def albumSongs(uri):
-                album = uri #assign album uri to an artist
-                spotify_albums[album] = {} #Creates dictionary for that specific album
-        #         print(spotify_albums[album])
+        def albumSongs(uri, album, album_name, album_release_dt):
+                spotify_albums[uri] = {} #Creates dictionary for that specific album
+        #         print(spotify_albums[uri])
 
                 ## Create keys-values of empty lists inside nested dictionary for album
-                spotify_albums[album]['album'] = [] #create empty list
-                spotify_albums[album]['track_number'] = []
-                spotify_albums[album]['id'] = []
-                spotify_albums[album]['name'] = []
-                spotify_albums[album]['uri'] = []
-                spotify_albums[album]['release_date'] = []
+                spotify_albums[uri]['album'] = [] #create empty list
+                spotify_albums[uri]['track_number'] = []
+                spotify_albums[uri]['id'] = []
+                spotify_albums[uri]['name'] = []
+                spotify_albums[uri]['uri'] = []
+                spotify_albums[uri]['release_date'] = []
 
-                tracks = sp.album_tracks(album) #pull data on album tracks
+                tracks = album['tracks']
 
                 for n in range(len(tracks['items'])): #for each song track
         #                 print(tracks['items'][n])
-                        spotify_albums[album]['album'].append(album_names[album_count]) #append album name tracked via album_count
-                        spotify_albums[album]['track_number'].append(tracks['items'][n]['track_number'])
-                        spotify_albums[album]['id'].append(tracks['items'][n]['id'])
-                        spotify_albums[album]['name'].append(tracks['items'][n]['name'])
-                        spotify_albums[album]['uri'].append(tracks['items'][n]['uri'])
-                        spotify_albums[album]['release_date'].append(album_release_date[album_count])
-                
-        album_count = 0
+                        spotify_albums[uri]['album'].append(album_name)
+                        spotify_albums[uri]['track_number'].append(tracks['items'][n]['track_number'])
+                        spotify_albums[uri]['id'].append(tracks['items'][n]['id'])
+                        spotify_albums[uri]['name'].append(tracks['items'][n]['name'])
+                        spotify_albums[uri]['uri'].append(tracks['items'][n]['uri'])
+                        spotify_albums[uri]['release_date'].append(album_release_dt)
 
-        for i in album_uris: #pulls all songs from each album
-                albumSongs(i)
-                print("Album " + str(album_names[album_count]) + " songs has been added to spotify_albums.")
-                album_count+=1 #Updates album count once every track on the album has been added
+        # ALBUM ------
+
+        albums = sp.albums(album_uris)['albums']
+        for i, val in enumerate(zip(album_uris, albums)):
+                uri, album = val
+                albumSongs(uri, album, album_names[i], album_release_date[i])
 
         # function to get audio features per song
         def audio_features(album):
@@ -112,35 +111,37 @@ for name in results:
                 ]:
                         add_key_vals(prop)
 
-                #track counter
-                track_count = 0
-                for track in spotify_albums[album]['uri']:
-                        #audio features per track
-                        features = sp.audio_features(track)
-                        
-                        #Append to relevant key-value
-                        def append_song_features(spotify_albums, album, features, prop):
-                                if features is None or features[0] is None:
-                                        spotify_albums[album][prop].append("NA")
-                                else:
-                                        if prop in features[0]:
-                                                spotify_albums[album][prop].append(features[0][prop])
-                        for prop in [
-                                'acousticness',
-                                'danceability',
-                                'energy',
-                                'instrumentalness',
-                                'liveness',
-                                'loudness',
-                                'speechiness',
-                                'tempo',
-                                'valence',
-                        ]:
-                                append_song_features(spotify_albums, album, features, prop)
+                # TRACK FEATURES -------
 
-                        pop = sp.track(track)
+                #audio features per track
+                features = sp.audio_features(spotify_albums[album]['uri'])
+
+                #Append to relevant key-value
+                def append_song_features(spotify_albums, album, features, prop):
+                        if features is None or features[0] is None:
+                                spotify_albums[album][prop].append("NA")
+                        else:
+                                for feature in features:
+                                        if prop in feature:
+                                                spotify_albums[album][prop].append(feature[prop])
+                                        else:
+                                                spotify_albums[album][prop].append("NA")
+                for prop in [
+                        'acousticness',
+                        'danceability',
+                        'energy',
+                        'instrumentalness',
+                        'liveness',
+                        'loudness',
+                        'speechiness',
+                        'tempo',
+                        'valence',
+                ]:
+                        append_song_features(spotify_albums, album, features, prop)
+
+                pops = sp.tracks(spotify_albums[album]['uri'])['tracks']
+                for pop in pops:
                         spotify_albums[album]['popularity'].append(pop['popularity']) # popularity is not stored in prop
-                        track_count+=1
 
         # time the api requests
         sleep_min = 2
