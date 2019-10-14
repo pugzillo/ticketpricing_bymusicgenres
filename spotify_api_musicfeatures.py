@@ -38,7 +38,6 @@ for nameI, name in enumerate(results):
         if os.path.exists(file_name):
             print("results exist for " + str(file_name))
             continue
-
         print("Attempting search for " + str(name))
         # result = sp.search(q='artist:%s genre:k-pop' % name) #search query for kpop
         result = sp.search(q='artist:%s' % name)
@@ -119,7 +118,15 @@ for nameI, name in enumerate(results):
                 # TRACK FEATURES -------
 
                 #audio features per track
-                features = sp.audio_features(spotify_albums[album]['uri'])
+                def getFeatures(arg):
+                        try:
+                                features = sp.audio_features(arg)
+                                return features
+                        except Exception:
+                                logging.error(arg)
+                                time.sleep(1)
+                                return getFeatures(arg)
+                features = getFeatures(spotify_albums[album]['uri'])
 
                 #Append to relevant key-value
                 def append_song_features(spotify_albums, album, features, prop):
@@ -149,16 +156,16 @@ for nameI, name in enumerate(results):
                         spotify_albums[album]['popularity'].append(pop['popularity']) # popularity is not stored in prop
 
         # time the api requests
-        sleep_min = 2
-        sleep_max = 5
         start_time = time.time()
         request_count = 0
         for i in spotify_albums:
                 audio_features(i)
                 request_count+=1
-                if request_count % 5 == 0:
+                if request_count % 10 == 0:
                         print(str(request_count) + " playlists completed")
-                        time.sleep(np.random.uniform(sleep_min, sleep_max))
+                        # "The reason why it isn't disclosed is because this number may change without warning. Using Retry-After should be enough to be able to write an application that handles being rate limited. That said, counting on having somewhere around 10-20 requests per second would put you in the correct ballpark"
+                        # https://stackoverflow.com/questions/30548073/spotify-web-api-rate-limits
+                        time.sleep(1)
                         print('Loop #: {}'.format(request_count))
                         print('Elapsed Time: {} seconds'.format(time.time() - start_time))
 
