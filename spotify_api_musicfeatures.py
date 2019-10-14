@@ -123,14 +123,14 @@ for nameI, name in enumerate(results):
 
                 #Append to relevant key-value
                 def append_song_features(spotify_albums, album, features, prop):
-                        if features is None or features[0] is None:
-                                spotify_albums[album][prop].append("NA")
-                        else:
-                                for feature in features:
-                                        if prop in feature:
-                                                spotify_albums[album][prop].append(feature[prop])
-                                        else:
-                                                spotify_albums[album][prop].append("NA")
+                        for feature in features:
+                                if not feature:
+                                        spotify_albums[album][prop].append("NA")
+                                        continue
+                                if prop in feature:
+                                        spotify_albums[album][prop].append(feature[prop])
+                                else:
+                                        spotify_albums[album][prop].append("NA")
                 for prop in [
                         'acousticness',
                         'danceability',
