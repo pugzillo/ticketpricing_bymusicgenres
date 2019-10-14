@@ -8,6 +8,7 @@ import numpy as np
 import pandas as pd
 from spotipy.oauth2 import SpotifyClientCredentials
 import os.path
+import multiprocessing
 
 # spotify credentials
 client_credentials_manager = SpotifyClientCredentials()
@@ -27,25 +28,27 @@ random.shuffle(results)
 # results.sort()
 # print(results)
 
-failed_searches = [] 
+# failed_searches = [] 
 
 ## Get discography for each artists
 logging.basicConfig(format='%(asctime)s %(message)s')
-for nameI, name in enumerate(results):
+
+def runTask(arg):
+        nameI, name = arg
         logging.warning(nameI)
         name = name.rstrip()
         file_name = '%s_SongInfo.csv' % name
         if os.path.exists(file_name):
             print("results exist for " + str(file_name))
-            continue
+            return
         print("Attempting search for " + str(name))
         # result = sp.search(q='artist:%s genre:k-pop' % name) #search query for kpop
         result = sp.search(q='artist:%s' % name)
 
         # failed searches, stop them if query is not found on spotify
-        if not result['tracks']['items']:
-                failed_searches.append(name)
-                continue
+        # if not result['tracks']['items']:
+        #         failed_searches.append(name)
+        #         continue
 
         # extract the Artist's uri (spotify artist ID)
         uri = result['tracks']['items'][0]['artists'][0]['uri']
@@ -118,15 +121,19 @@ for nameI, name in enumerate(results):
                 # TRACK FEATURES -------
 
                 #audio features per track
-                def getFeatures(arg):
+                def getFeatures(arg, numTries=0):
+                        if numTries == 3:
+                                return None
                         try:
                                 features = sp.audio_features(arg)
                                 return features
                         except Exception:
                                 logging.error(arg)
                                 time.sleep(1)
-                                return getFeatures(arg)
+                                return getFeatures(arg, numTries + 1)
                 features = getFeatures(spotify_albums[album]['uri'])
+                if features is None:
+                        raise Exception()
 
                 #Append to relevant key-value
                 def append_song_features(spotify_albums, album, features, prop):
@@ -159,13 +166,15 @@ for nameI, name in enumerate(results):
         start_time = time.time()
         request_count = 0
         for i in spotify_albums:
-                audio_features(i)
+                try:
+                        audio_features(i)
+                except Exception:
+                        continue
                 request_count+=1
                 if request_count % 10 == 0:
                         print(str(request_count) + " playlists completed")
                         # "The reason why it isn't disclosed is because this number may change without warning. Using Retry-After should be enough to be able to write an application that handles being rate limited. That said, counting on having somewhere around 10-20 requests per second would put you in the correct ballpark"
                         # https://stackoverflow.com/questions/30548073/spotify-web-api-rate-limits
-                        time.sleep(1)
                         print('Loop #: {}'.format(request_count))
                         print('Elapsed Time: {} seconds'.format(time.time() - start_time))
 
@@ -205,5 +214,8 @@ for nameI, name in enumerate(results):
         # print out file with song information for the artist
         final_df.to_csv('%s_SongInfo.csv' % name)
 
-failed_search_df = pd.DataFrame(failed_searches) 
-failed_search_df.to_csv('Failed_Searches_ticket_artists.csv') #file with the failed queries
+with multiprocessing.Pool() as workers:
+        workers.map(runTask, enumerate(results))
+
+# failed_search_df = pd.DataFrame(failed_searches) 
+# failed_search_df.to_csv('Failed_Searches_ticket_artists.csv') #file with the failed queries
