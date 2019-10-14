@@ -1,3 +1,5 @@
+import logging
+import random
 import sys
 import spotipy
 import os
@@ -21,13 +23,16 @@ for x in lines:
 
 f.close()
 
-results.sort()
+random.shuffle(results)
+# results.sort()
 # print(results)
 
 failed_searches = [] 
 
 ## Get discography for each artists
-for name in results: 
+logging.basicConfig(format='%(asctime)s %(message)s')
+for nameI, name in enumerate(results):
+        logging.warning(nameI)
         name = name.rstrip()
         file_name = '%s_SongInfo.csv' % name
         if os.path.exists(file_name):
