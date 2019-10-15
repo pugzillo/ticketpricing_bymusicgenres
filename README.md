@@ -13,4 +13,4 @@ A statistical analysis and model of ticket prices using concert features and mus
 # Conclusions
 
 # References
-
+https://www.cnbc.com/2015/03/04/online-ticket-resellers-the-surreptitious-rise-of-the-online-scalper.html
