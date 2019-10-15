@@ -3,3 +3,4 @@ jsonfiles/
 *.sqlite
 stubhub_api_token.bash
 *.ipynb_checkpoints
+*.DS_Store
