@@ -1,4 +1,4 @@
-# Ticket Pricing by Music Genres
+# Resale Ticket Pricing by Music Genres
 
 A statistical analysis and model of ticket prices using concert features and musical features.
 
