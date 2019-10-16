@@ -1,0 +1,7 @@
+jsonfiles/
+*.csv
+*.sqlite
+stubhub_api_token.bash
+*.ipynb_checkpoints
+*.DS_Store
+stubhub_api_poc.py
