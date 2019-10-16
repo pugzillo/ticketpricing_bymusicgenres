@@ -17,7 +17,8 @@ Tools: Python, Numpy, Pandas, Matplotlib, Scipy, Seaborn, Multiprocessing, Spoti
 
 
 ### Does music genre affect resale ticket prices?
-[PUT BOXPLOT HERE]
+
+![Boxplot comparing Average Ticket Resale Price between Concert Residencies and Touring Concerts](images/ConcertResidency_AvgTickPrice.png)
 
 There is a significant difference in the average ticket resale price between concerts of different genres (Kruskal-Wallis Test: H = 318.94; p-value = 6.41e-59). Punk concerts have the lowest resale price (mean: 60.0); while Pop, Country, Blues, and Latin concerts have high resale prices. 
 
@@ -25,7 +26,7 @@ There is a significant difference in the average ticket resale price between con
 
 When I was looking at individual artists (ie. Dionne Warwick, The Lumineers, etc), I noticed that there was not much variation in average ticket price over time for artists that performed at the same venue multiple times and those that toured. Therefore, I wanted to look at the difference in average ticket resale price between the two groups. 
 
-[PUT BOXPLOT HERE]
+![Boxplot comparing Average Ticket Resale Price between Music Genres](images/MusicGenre_AvgTickPrice.png)
 
 Residency concerts have higher average resale price than touring concerts (Mann-whitney-u (statistic=18467363.0, pvalue=1.84e-156)
 
