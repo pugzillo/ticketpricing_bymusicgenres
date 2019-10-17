@@ -3,8 +3,10 @@ import pandas as pd
 import glob
 import re
 import multiprocessing
+import time
 
 # reading in spotify outputs from the directory
+start_time = time.time()
 
 files = glob.glob("*_SongInfo.csv")
 
@@ -50,3 +52,5 @@ res_df = pd.concat(res_list)
 
 # print(songfeat)
 res_df.to_csv('TicketArtist_SpotifySongFeatures.csv')
+
+print("My program took", time.time() - start_time, "to run")

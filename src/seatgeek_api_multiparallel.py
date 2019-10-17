@@ -10,7 +10,6 @@ import os
 import multiprocessing
 import json
 import os.path
-import logging
 
 requests_cache.install_cache()
 
@@ -30,12 +29,10 @@ payload = {
 }
 
 results = list(range(1,30096))
-logging.basicConfig(format='%(asctime)s %(message)s')
 
 def runTask(arg):
     try:
         page = arg
-        print(page)
         headers = {
         'Content-Type':'application/x-www-form-urlencoded',
         }
@@ -50,10 +47,10 @@ def runTask(arg):
 
         r = requests.get('https://api.seatgeek.com/2/events?taxonomies.name=concert', headers=headers, params=payload)
         print(r)
-        
         # if we get an error, print the response and halt the loop
         if r.status_code != 200:
             print("Error on page {}".format(page))
+            print(r.text)
             sys.exit()
 
         with open(f'{page}.json', 'w') as outfile:
@@ -64,7 +61,8 @@ def runTask(arg):
             time.sleep(0.25)
 
     except Exception:
+        print('here')
         pass
 
-with multiprocessing.Pool(5) as workers:
+with multiprocessing.Pool(100) as workers:
         workers.map(runTask, results)
