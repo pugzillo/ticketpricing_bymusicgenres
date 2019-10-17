@@ -11,22 +11,13 @@ Used the SeatGeek API to retrieve information on ticket resales and the Spotify 
 
     - Number of concerts: 30,634 (10/08/2019 to 12/31/2029, US Events)
     - Number of Musical Acts: 7,609
+    - Songs by Performing Musical Acts: 643,457
+
+I aggregated the data using the mean to come up with an average resale price across all concerts for a respective artist. To come up with a musical profile, all songs in an act's discography was averaged together. 
 
 Tools: Python, Numpy, Pandas, Matplotlib, Scipy, Seaborn, Multiprocessing, Spotipy, Jupyter Notebook
 
 ## Results and Insight
-
-I'm interested in average price of a resale ticket. When looking at the different features and their correlation to average resale price, it seems like there are a couple features that seem intresting (though correlations are a bit low): 
-
-    - performers_num_upcoming_events
-    - venue_capacity
-    - venue_score
-    - acouticness
-    - energy
-    - liveness
-    - streaming popularity
-
-![Pairwise Correlation matrix between Musical and Concert Features](images/CorrelationMatrix_features.png)
 
 ### Does music genre affect resale ticket prices?
 
@@ -42,7 +33,26 @@ When I was looking at individual artists (ie. Dionne Warwick, The Lumineers, etc
 
 Residency concerts have higher average resale price than touring concerts (Mann-whitney-u (statistic=18467363.0, pvalue=1.84e-156)
 
+### Feature Selection
+
+I'm interested in average price of a resale ticket. When looking at the different features and their correlation to average resale price, it seems like there are a couple features that seem intresting (though correlations are a bit low): 
+
+    - performers_num_upcoming_events
+    - venue_capacity
+    - venue_score
+    - acouticness
+    - energy
+    - liveness
+    - streaming popularity
+
+![Pairwise Correlation matrix between Musical and Concert Features](images/CorrelationMatrix_features.png)
+
+
 ### Predicting Ticket Prices
+
+#### Linear Regression
+
+#### Random Forest
 
 ## Conclusions
 
