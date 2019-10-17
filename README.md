@@ -9,6 +9,9 @@ Predict average ticket resale prices with features covering the concert, itself,
 
 Used the SeatGeek API to retrieve information on ticket resales and the Spotify API to retrieve information on musical features of artists playing concerts.  
 
+    - Number of concerts: 30,634 (10/08/2019 to 12/31/2029, US Events)
+    - Number of Musical Acts: 7,609
+
 Tools: Python, Numpy, Pandas, Matplotlib, Scipy, Seaborn, Multiprocessing, Spotipy, Jupyter Notebook
 
 ## Results and Insight
