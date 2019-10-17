@@ -19,18 +19,6 @@ Tools: Python, Numpy, Pandas, Matplotlib, Scipy, Seaborn, Multiprocessing, Spoti
 
 ## Results and Insight
 
-I'm interested in average price of a resale ticket. When looking at the different features and their correlation to average resale price, it seems like there are a couple features that seem intresting (though correlations are a bit low): 
-
-    - performers_num_upcoming_events
-    - venue_capacity
-    - venue_score
-    - acouticness
-    - energy
-    - liveness
-    - streaming popularity
-
-![Pairwise Correlation matrix between Musical and Concert Features](images/CorrelationMatrix_features.png)
-
 ### Does music genre affect resale ticket prices?
 
 ![Boxplot comparing Average Ticket Resale Price between Concert Residencies and Touring Concerts](images/ConcertResidency_AvgTickPrice.png)
@@ -45,7 +33,24 @@ When I was looking at individual artists (ie. Dionne Warwick, The Lumineers, etc
 
 Residency concerts have higher average resale price than touring concerts (Mann-whitney-u (statistic=18467363.0, pvalue=1.84e-156)
 
+### Feature Selection
+
+I'm interested in average price of a resale ticket. When looking at the different features and their correlation to average resale price, it seems like there are a couple features that seem intresting (though correlations are a bit low): 
+
+    - performers_num_upcoming_events
+    - venue_capacity
+    - venue_score
+    - acouticness
+    - energy
+    - liveness
+    - streaming popularity
+
+![Pairwise Correlation matrix between Musical and Concert Features](images/CorrelationMatrix_features.png)
+
+
 ### Predicting Ticket Prices
+
+#### Random Forest
 
 ## Conclusions
 
