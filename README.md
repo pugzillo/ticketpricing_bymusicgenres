@@ -23,8 +23,7 @@ I'm interested in average price of a resale ticket. When looking at the differen
     - liveness
     - streaming popularity
 
-![Pairwise Correlation matrix between Musical and Concert Features]
-(images/CorrelationMatrix_features.png)
+![Pairwise Correlation matrix between Musical and Concert Features](images/CorrelationMatrix_features.png)
 
 ### Does music genre affect resale ticket prices?
 
