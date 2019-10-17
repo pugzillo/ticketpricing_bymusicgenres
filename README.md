@@ -13,8 +13,18 @@ Tools: Python, Numpy, Pandas, Matplotlib, Scipy, Seaborn, Multiprocessing, Spoti
 
 ## Results and Insight
 
-### Does the time before the concert affect resale ticket prices?
+I'm interested in average price of a resale ticket. When looking at the different features and their correlation to average resale price, it seems like there are a couple features that seem intresting: 
 
+    - performers_num_upcoming_events
+    - venue_capacity
+    - venue_score
+    - acouticness
+    - energy
+    - liveness
+    - streaming popularity
+
+![Pairwise Correlation matrix between Musical and Concert Features]
+(images/CorrelationMatrix_features.png)
 
 ### Does music genre affect resale ticket prices?
 
