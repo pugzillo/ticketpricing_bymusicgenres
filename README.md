@@ -50,6 +50,8 @@ I'm interested in average price of a resale ticket. When looking at the differen
 
 ### Predicting Ticket Prices
 
+#### Linear Regression
+
 #### Random Forest
 
 ## Conclusions
