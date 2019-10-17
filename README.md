@@ -11,6 +11,9 @@ Used the SeatGeek API to retrieve information on ticket resales and the Spotify 
 
     - Number of concerts: 30,634 (10/08/2019 to 12/31/2029, US Events)
     - Number of Musical Acts: 7,609
+    - Songs by Performing Musical Acts: 643,457
+
+I aggregated the data using the mean to come up with an average resale price across all concerts for a respective artist. To come up with a musical profile, all songs in an act's discography was averaged together. 
 
 Tools: Python, Numpy, Pandas, Matplotlib, Scipy, Seaborn, Multiprocessing, Spotipy, Jupyter Notebook
 
