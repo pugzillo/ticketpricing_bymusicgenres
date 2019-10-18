@@ -1,6 +1,6 @@
 # Resale Ticket Pricing by Music Genres
 
-by[Linh Chau](https://www.linkedin.com/in/linhchau/)
+by [Linh Chau](https://www.linkedin.com/in/linhchau/)
 
 A statistical analysis and model of ticket resale prices using concert features and musical features. The ticket resale market in the US is estimated to be a 5 billion dollar market. Given the size of the industry, it's important to understand how to sell tickets in a fashion that will find you a buyer but also not to leave money off the table. Therefore, I'm interested in the different factors that relate to the average resale price of concert tickets. 
 
