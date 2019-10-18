@@ -1,5 +1,7 @@
 # Resale Ticket Pricing by Music Genres
 
+by Linh Chau
+
 A statistical analysis and model of ticket resale prices using concert features and musical features. The ticket resale market in the US is estimated to be a 5 billion dollar market. Given the size of the industry, it's important to understand how to sell tickets in a fashion that will find you a buyer but also not to leave money off the table. Therefore, I'm interested in the different factors that relate to the average resale price of concert tickets. 
 
 ## Project Goal
@@ -10,12 +12,16 @@ Predict average ticket resale prices with features covering the concert, itself,
 Used the SeatGeek API to retrieve information on ticket resales and the Spotify API to retrieve information on musical features of artists playing concerts.  
 
     - Number of concerts: 30,634 (10/08/2019 to 12/31/2029, US Events)
+        - 90 features: Concert Announcement Info, Venue Information, Price Information, Performer Information, etc.
     - Number of Musical Acts: 7,609
     - Songs by Performing Musical Acts: 643,457
+        - Spotify generated muscical features: Music Energy, Danceability, etc. 
 
 I aggregated the data using the mean to come up with an average resale price across all concerts for a respective artist. To come up with a musical profile, all songs in an act's discography was averaged together. 
 
-Tools: Python, Numpy, Pandas, Matplotlib, Scipy, Seaborn, Multiprocessing, Spotipy, Jupyter Notebook
+Also, I modeled the concert data with just the features from SeatGeek. 
+
+Tools: Python, Numpy, Pandas, Matplotlib, Scipy, Seaborn, Spotipy, Jupyter Notebook, Sklearn, Glob, StatsModels, Multiprocessing
 
 ## Results and Insight
 
@@ -33,28 +39,31 @@ When I was looking at individual artists (ie. Dionne Warwick, The Lumineers, etc
 
 Residency concerts have higher average resale price than touring concerts (Mann-whitney-u (statistic=18467363.0, pvalue=1.84e-156)
 
+
+### Predicting Resale Ticket Prices
+
 ### Feature Selection
 
-I'm interested in average price of a resale ticket. When looking at the different features and their correlation to average resale price, it seems like there are a couple features that seem intresting (though correlations are a bit low): 
+I'm interested in average price of a resale ticket. In preliminary EDA, I saw that musical features had small correlations with average resale price, so I removed them when performing feature selection. When looking at the different ticket features and their correlation to average resale price, it seems like there were many features that seem intresting: 
 
-    - performers_num_upcoming_events
+    - Base ticket price
     - venue_capacity
     - venue_score
-    - acouticness
-    - energy
-    - liveness
-    - streaming popularity
+    - Number of future performances from the artist
+    - etc.
 
-![Pairwise Correlation matrix between Musical and Concert Features](images/CorrelationMatrix_features.png)
+Given the number of features, I'll take a multiprong approach. I'll use linear regression to get an understanding of what features help explain the variance in average resale ticket price. I'll create preliminary models with a few features and then I'll use LASSO/L1 Regularization to help with feature selection. I'll use random forest to create a predictor of average resale price. 
+
+![Pairwise Correlation matrix between Musical and Concert Features](images/heatmap_concerttix.png)
 
 
-### Predicting Ticket Prices
-
-#### Linear Regression
+#### Linear Regression and LASSO/L1 Regularization
 
 #### Random Forest
 
+
 ## Conclusions
+
 
 ## References
 https://www.cnbc.com/2015/03/04/online-ticket-resellers-the-surreptitious-rise-of-the-online-scalper.html
